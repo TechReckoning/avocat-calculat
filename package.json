@@ -1,0 +1,20 @@
+{
+  "name": "avocat-calculat",
+  "version": "1.0.0",
+  "description": "Unified legal calculators dashboard",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8000 -o",
+    "dev": "npx http-server -p 8000 -o -c-1"
+  },
+  "keywords": [
+    "legal",
+    "calculators",
+    "romania"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

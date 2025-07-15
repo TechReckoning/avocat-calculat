@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cauțiuni în Achiziții Publice - Avocat Calculat</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../pages/pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <a href="../index.html" class="back-btn">← Înapoi la Dashboard</a>
+    </nav>
+    <h1>Calculator Orientativ de Cauțiuni în Domeniul Achizițiilor Publice, Sectoriale și Concesiunilor</h1>
+    <p style="max-width:900px;margin:0 auto;text-align:center;font-weight:500;">Conform Legii nr. 101/2016 privind remediile şi căile de atac în materie de atribuire a contractelor de achiziţie publică, a contractelor sectoriale şi a contractelor de concesiune de lucrări şi concesiune de servicii, precum şi pentru organizarea şi funcţionarea Consiliului Naţional de Soluţionare a Contestaţiilor</p>
+  </header>
+
+  <main class="calculator-container">
+    <div class="calculator-form">
+      <!-- Step 1: Tip procedura -->
+      <div class="form-group">
+        <label class="form-label">Procedura de atribuire are ca obiect:</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="tipProcedura" value="contract" id="contract">
+            Contract
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="tipProcedura" value="acord-cadru" id="acord-cadru">
+            Acord-cadru
+          </label>
+        </div>
+      </div>
+      <hr>
+      <!-- Step 2: Pe loturi -->
+      <div class="form-group" id="step2">
+        <label class="form-label">Procedura de atribuire este împărțită pe loturi?</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="peLoturi" value="nu" id="nu-loturi">
+            Nu
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="peLoturi" value="da" id="da-loturi">
+            Da
+          </label>
+        </div>
+      </div>
+      <hr>
+      <!-- Step 3: Valoare -->
+      <div class="form-group" id="step3">
+        <label class="form-label" id="valoare-label">Introduceți Valoarea Estimată a Contractului:</label>
+        <input type="text" id="valoare" placeholder="ex: 1000000.50" class="form-input">
+        <small class="form-help">Introduceți valoarea doar cu cifre, fără puncte sau spații pentru mii. Se acceptă zecimale cu punct sau virgulă.</small>
+        <div class="form-info" id="info-valoare"></div>
+      </div>
+      <hr>
+      <!-- Step 4: Tip contestație -->
+      <div class="form-group" id="step4">
+        <label class="form-label">Cauțiunea este calculată pentru:</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="tipContestatie" value="documentatie" id="documentatie">
+            Contestație privind documentația de atribuire
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="tipContestatie" value="rezultat" id="rezultat">
+            Contestație privind rezultatul procedurii de atribuire
+          </label>
+        </div>
+      </div>
+      <hr>
+      <!-- Step 5: Lege -->
+      <div class="form-group" id="step5">
+        <label class="form-label">Cauțiunea este calculată pentru o procedură organizată în baza cărei legi?</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="lege" value="98" id="lege98">
+            Legea nr. 98/2016
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="lege" value="99" id="lege99">
+            Legea nr. 99/2016
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="lege" value="100" id="lege100">
+            Legea nr. 100/2016
+          </label>
+        </div>
+      </div>
+      <hr>
+      <!-- Step 6: Prag -->
+      <div class="form-group" id="step6">
+        <label class="form-label">Prag valoric aplicabil:</label>
+        <div id="praguri-container"></div>
+      </div>
+      <hr>
+
+      <button type="button" onclick="calculeazaCautiune()" class="calculate-btn" id="calc-btn">Calculează Cauțiunea</button>
+    </div>
+
+    <div class="results" id="rezultate" style="display: none;">
+      <h3>Rezultate</h3>
+      <div class="result-item">
+        <span class="label">Cauțiunea finală:</span>
+        <span class="value" id="cautiune-finala">-</span>
+      </div>
+      <div class="result-item">
+        <span class="label">Cauțiune provizorie:</span>
+        <span class="value" id="cautiune-provizorie">-</span>
+      </div>
+      <div class="result-item">
+        <span class="label">Plafon maxim aplicabil:</span>
+        <span class="value" id="plafon-maxim">-</span>
+      </div>
+      <div class="result-item">
+        <span class="label">Explicație:</span>
+        <span class="value" id="explicatie">-</span>
+      </div>
+    </div>
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> Acest calculator are scop exclusiv informativ și nu reprezintă consultanță juridică. Pentru soluții personalizate, consultați un avocat sau specialist autorizat. Valorile calculate pot varia în funcție de circumstanțele concrete ale fiecărei cauze și de interpretarea instanței.
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 TechReckoning | Toate drepturile rezervate. Informațiile prezentate nu constituie consultanță juridică și nu creează o relație avocat-client.</p>
+  </footer>
+
+  <script src="../js/cautiuni-achizitii.js"></script>
+</body>
+</html> 

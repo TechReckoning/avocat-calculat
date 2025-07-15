@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dobânzi Legale Penalizatoare - Avocat Calculat</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../pages/pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <a href="../index.html" class="back-btn">← Înapoi la Dashboard</a>
+    </nav>
+    <h1>Calculator Orientativ de Dobânzi Legale Penalizatoare</h1>
+    <p style="max-width:900px;margin:0 auto;text-align:center;font-weight:500;">Conform O.G. nr. 13/2011 privind dobânda legală remuneratorie şi penalizatoare pentru obligaţii băneşti, precum şi pentru reglementarea unor măsuri financiar-fiscale în domeniul bancar</p>
+  </header>
+
+  <main class="calculator-container">
+    <form class="calculator-form" id="calculatorForm" autocomplete="off"><div id="errorMsg" style="color: rgb(176, 0, 0); font-weight: bold; margin-bottom: 15px;"></div>
+      <div class="form-group">
+        <label for="suma">Suma datorată (RON):</label>
+        <input type="text" id="suma" name="suma" placeholder="Ex: 1000.50 sau 1000,50" required="">
+        <div class="input-hint">Introduceți suma folosind punct sau virgulă pentru zecimale (ex: <b>1000.50</b> sau <b>1000,50</b>).</div>
+      </div>
+
+      <div class="form-group">
+        <label for="dataScadenta">Data scadenței:</label>
+        <input type="date" id="dataScadenta" name="dataScadenta" required="">
+      </div>
+
+      <div class="form-group">
+        <label for="dataCalcul">Data calculului:</label>
+        <input type="date" id="dataCalcul" name="dataCalcul" required="">
+      </div>
+
+      <div class="form-group">
+        <label>Tip raport juridic:</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="tipRaport" value="uzual" checked="">
+            <span>Între neprofesioniști</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="tipRaport" value="profesionisti">
+            <span>Între profesioniști și între aceștia și autoritățile contractante</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="tipRaport" value="extraneitate">
+            <span>În raporturile cu element de extraneitate</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="tipRaport" value="faraScop">
+            <span>În raporturile care nu decurg din exploatarea unei întreprinderi cu scop lucrativ</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Elimin butonul de submit pentru calcul live -->
+    </form>
+
+    <div id="results" class="results">
+      <h3>Rezultate Calcul</h3>
+      
+      <div class="summary">
+        <div class="summary-item">
+          <span class="label">Suma datorată:</span>
+          <span class="value" id="sumaAfisata">0.00 RON</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Perioada întârzierii:</span>
+          <span class="value" id="perioadaIntarziere">0 zile</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Dobânda acumulată:</span>
+          <span class="value" id="dobandaAcumulata">0.00 RON</span>
+        </div>
+        <div class="summary-item total">
+          <span class="label">Total de plată:</span>
+          <span class="value" id="totalPlata">0.00 RON</span>
+        </div>
+      </div>
+
+      <div class="transe-table">
+        <h4>Detalii calcul pe ani</h4>
+        <div id="detalii-msg" style="text-align:center;color:#b00000;font-weight:500;margin-bottom:10px;"></div>
+        <table id="transeTable" class="styled-table">
+          <thead>
+            <tr>
+              <th>Perioada</th>
+              <th>Zile</th>
+              <th>Zile din an</th>
+              <th>Rata BNR</th>
+              <th>Dob. aplicată</th>
+              <th>Dobândă RON</th>
+            </tr>
+          </thead>
+          <tbody id="transeTableBody">
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5"><strong>Total</strong></td>
+              <td id="totalDobanda"><strong>0.00 RON</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> Acest calculator are scop exclusiv informativ și nu reprezintă consultanță juridică. Pentru soluții personalizate, consultați un avocat sau specialist autorizat. Valorile calculate pot varia în funcție de circumstanțele concrete ale fiecărei cauze și de interpretarea instanței.
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 TechReckoning | Toate drepturile rezervate. Informațiile prezentate nu constituie consultanță juridică și nu creează o relație avocat-client.</p>
+  </footer>
+
+  <script src="../js/dobanzi-legale2.js"></script>
+</body>
+</html> 

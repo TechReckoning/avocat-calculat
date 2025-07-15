@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Buget Avocat Definitiv - Avocat Calculat</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../pages/pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <a href="../index.html" class="back-btn">← Înapoi la Dashboard</a>
+    </nav>
+    <h1>Calculator Orientativ pentru Bugetul Avocatului Definitiv</h1>
+    <p style="max-width:700px;margin:0 auto;text-align:center;font-weight:500;">Estimarea bugetului lunar al avocatului definitiv</p>
+  </header>
+
+  <main class="calculator-container">
+    <div class="intro-text">
+      <!-- Textul motivațional eliminat -->
+      <div class="container-text">
+        <p>
+          Dacă ești avocat definitiv în Baroul București, ai o serie de impozite și contribuții pe care trebuie să le acoperi din venitul tău brut. Acest calculator te ajută să înțelegi rapid, cu titlu orientativ, ce sume ar trebui să pui deoparte și cât rămâne efectiv pentru cheltuielile tale lunare.
+        </p>
+        <p>
+          Să începem prin a identifica impozitele și contribuțiile pe care trebuie să le plătești:
+        </p>
+        <ul>
+          <li>Impozit pe venit (10%) (pentru anul 2025) — se plătește anual și se calculează după o formulă complexă, dar este recomandabil să păstrezi lunar 10% din venitul brut pentru a putea achita suma anul următor</li>
+          <li>Contribuție de asigurări sociale de sănătate (CASS) (10%) (pentru anul 2025) — se plătește anual și se calculează după o formulă complexă, dar este recomandabil să păstrezi lunar 10% din venitul brut pentru a putea achita suma anul următor</li>
+          <li>Contribuție lunară la Casa de Asigurări a Avocaților - Filiala București-Ilfov (pentru anul 2025):<br/>
+            - Pentru venit brut cuprins între 0 – 4.000 RON: contribuția este 560 RON<br/>
+            - Pentru venit brut cuprins între 4.001 – 19.993 RON: contribuția este 14% din venitul brut<br/>
+            - Pentru venit brut de peste 19.993 RON: contribuția este 2.800 RON
+          </li>
+          <li>Contribuție lunară la Baroul București (pentru anul 2025): 60 RON</li>
+          <li>Contribuție lunară la Uniunea Națională a Barourilor din România (pentru anul 2025): 41 RON</li>
+          <li>Contribuție lunară la Fondul de Solidaritate (pentru anul 2025): 5 RON</li>
+        </ul>
+        <p>
+          După ce scădem toate aceste contribuții din venitul brut, îți oferim și o recomandare pentru bugetul personal, ce poate fi împărțit după regula 50-30-20: 50% pentru nevoi, 30% pentru dorințe, 20% pentru economii sau investiții.
+        </p>
+        <p>
+          Regula 50-30-20 este un principiu simplu de gestionare a bugetului personal, popularizat de senatoarea americană Elizabeth Warren în cartea sa „All Your Worth: The Ultimate Lifetime Money Plan". Scopul acestei reguli este să ofere o structură clară pentru cheltuirea veniturilor lunare, evitând atât dezechilibrele financiare, cât și presiunea deciziilor financiare impulsive.
+        </p>
+        <p>
+          Ideea din spatele regulii este că bugetul lunar trebuie împărțit astfel încât să asigure un echilibru între nevoile esențiale (50%), dorințele personale (30%) și economisirea sau investiția pentru viitor (20%). Deși este doar o recomandare, această abordare ajută mulți profesioniști să își păstreze controlul asupra finanțelor proprii.
+        </p>
+        <p>Recomandăm să repeți acest calcul lunar, la data de 25 a fiecărei luni.</p>
+      </div>
+    </div>
+
+    <div class="calculator-form">
+      <div class="form-group">
+        <label for="brut">Introdu suma brută încasată (lei):</label>
+        <input type="number" id="brut" placeholder="Ex: 15000" class="form-input">
+      </div>
+
+      <button type="button" onclick="calculeazaBuget()" class="calculate-btn">Calculează</button>
+    </div>
+
+    <div class="results" id="rezultate" style="display: none;">
+      <h3>Rezultatul Calculului</h3>
+      <div class="result-item">
+        <span class="label">Economie pentru impozitul pe venit (10%):</span>
+        <span class="value" id="impozit">-</span>
+      </div>
+      <div class="result-item">
+        <span class="label">Economie pentru contribuția de asigurări sociale de sănătate (CASS) (10%):</span>
+        <span class="value" id="cass">-</span>
+      </div>
+      <div class="result-item">
+        <span class="label">Contribuție lunară Casa de Asigurări a Avocaților - Filiala București Ilfov:</span>
+        <span class="value" id="caa">-</span>
+      </div>
+      <div class="result-item">
+        <span class="label">Contribuție lunară la Baroul București:</span>
+        <span class="value" id="barou">-</span>
+      </div>
+      <div class="result-item">
+        <span class="label">Contribuție lunară la Uniunea Națională a Barourilor din România:</span>
+        <span class="value" id="unbr">-</span>
+      </div>
+      <div class="result-item">
+        <span class="label">Contribuție lunară la Fondul de Solidaritate:</span>
+        <span class="value" id="solidaritate">-</span>
+      </div>
+      <div class="result-item total">
+        <span class="label">Total economii și plăți pentru impozite și contribuții:</span>
+        <span class="value" id="total-contributii">-</span>
+      </div>
+      <div class="result-item total">
+        <span class="label">Net disponibil lunar:</span>
+        <span class="value" id="net-disponibil">-</span>
+      </div>
+      <h4>Recomandare 50-30-20:</h4>
+      <div class="result-item">
+        <span class="label">➤ Nevoi (50%):</span>
+        <span class="value" id="nevoi">-</span>
+      </div>
+      <div class="result-item">
+        <span class="label">➤ Dorințe (30%):</span>
+        <span class="value" id="dorinte">-</span>
+      </div>
+      <div class="result-item">
+        <span class="label">➤ Economii/Investiții (20%):</span>
+        <span class="value" id="economii">-</span>
+      </div>
+    </div>
+
+    <div class="link-uri" style="text-align:justify;">
+      <p><strong>Link-uri utile:</strong></p>
+      <p>Pentru plata cu cardul a contribuțiilor lunare la Baroul București, la Uniunea Națională a Barourilor din România sau la Fondul de Solidaritate: <a href="https://www.baroul-bucuresti.ro/taxe">https://www.baroul-bucuresti.ro/taxe</a>.</p>
+      <p>Pentru plata prin virament bancar a contribuțiilor lunare la Baroul București, la Uniunea Națională a Barourilor din România sau la Fondul de Solidaritate: <a href="https://www.baroul-bucuresti.ro/plata-prin-transfer-bancar">https://www.baroul-bucuresti.ro/plata-prin-transfer-bancar</a>.</p>
+      <p>Pentru plata contribuției lunare la Casa de Asigurări a Avocaților - Filiala București-Ilfov: <a href="https://www.filbuc-caa.ro">https://www.filbuc-caa.ro</a>.</p>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> Acest calculator are scop exclusiv informativ și nu reprezintă consultanță juridică. Pentru soluții personalizate, consultați un avocat sau specialist autorizat. Valorile calculate pot varia în funcție de circumstanțele concrete ale fiecărei cauze și de interpretarea instanței.
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 TechReckoning | Toate drepturile rezervate. Informațiile prezentate nu constituie consultanță juridică și nu creează o relație avocat-client.</p>
+  </footer>
+
+  <script src="../js/buget-avocat-definitiv.js"></script>
+</body>
+</html> 

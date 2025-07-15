@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Termene Procedurale - Avocat Calculat</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../pages/pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <a href="../index.html" class="back-btn">← Înapoi la Dashboard</a>
+    </nav>
+    <h1>Calculator Orientativ de Termene Procedurale</h1>
+    <p style="max-width:900px;margin:0 auto;text-align:center;font-weight:500;">Calcul conform Codului de Procedură Cilivă, conform Legii nr. 101/2016 și în sistemul zilelor pline</p>
+  </header>
+
+  <main class="calculator-container">
+    <div class="calculator-form">
+      <!-- Data de început -->
+      <div class="form-group">
+        <label class="form-label">1. Data de început</label>
+        <p class="form-help">Selectează data de la care începe termenul procedural.</p>
+        <input type="date" id="startDate" class="form-input">
+      </div>
+
+      <!-- Durata termenului -->
+      <div class="form-group">
+        <label class="form-label">2. Durata termenului</label>
+        <p class="form-help">Introdu numărul de zile, ore, săptămâni, luni sau ani pentru termenul procedural.</p>
+        <input type="number" id="duration" min="1" placeholder="Ex: 10" class="form-input">
+      </div>
+
+      <!-- Unitate de măsură -->
+      <div class="form-group">
+        <label class="form-label">3. Unitate de măsură</label>
+        <p class="form-help">Alege unitatea de măsură pentru termen: zile, ore, săptămâni, luni sau ani.</p>
+        <select id="unit" class="form-input">
+          <option value="zile">zile</option>
+          <option value="ore">ore</option>
+          <option value="săptămâni">săptămâni</option>
+          <option value="luni">luni</option>
+          <option value="ani">ani</option>
+        </select>
+      </div>
+
+      <!-- Sistem de calcul -->
+      <div class="form-group" id="systemGroup" style="display: none;">
+        <label class="form-label">4. Sistem de calcul aplicabil</label>
+        <p class="form-help">Alege sistemul de calcul pentru termenele pe zile:</p>
+        <select id="system" class="form-input">
+          <option value="zile_libere">Zile libere (Cod procedură civilă)</option>
+          <option value="intermediar">Intermediar (Legea 101/2016)</option>
+          <option value="zile_pline">Zile pline (sistem brut)</option>
+        </select>
+      </div>
+
+      <!-- An sărbători legale -->
+      <div class="form-group">
+        <label class="form-label">5. Anul de referință pentru sărbători legale</label>
+        <p class="form-help">Anul este selectat automat în funcție de data de început.</p>
+        <select id="selectedYear" class="form-input" disabled>
+          <option value="">Alege data de început</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button type="button" onclick="calculeazaTermen()" class="calculate-btn" id="calcBtn" disabled>Calculează</button>
+        <button type="button" onclick="resetCalculator()" class="reset-btn">Resetează</button>
+      </div>
+    </div>
+
+    <div class="results" id="rezultate" style="display: none;">
+      <h3>Rezultate</h3>
+      <div class="result-display">
+        <div class="result-date" id="resultDate">-</div>
+        <div class="result-explanation" id="resultExplanation">-</div>
+      </div>
+    </div>
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> Acest calculator are scop exclusiv informativ și nu reprezintă consultanță juridică. Pentru soluții personalizate, consultați un avocat sau specialist autorizat. Valorile calculate pot varia în funcție de circumstanțele concrete ale fiecărei cauze și de interpretarea instanței.
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 TechReckoning | Toate drepturile rezervate. Informațiile prezentate nu constituie consultanță juridică și nu creează o relație avocat-client.</p>
+  </footer>
+
+  <script src="../js/dateUtils.js"></script>
+  <script src="../js/holidays.js"></script>
+  <script src="../js/termene-procedurale.js"></script>
+</body>
+</html> 
