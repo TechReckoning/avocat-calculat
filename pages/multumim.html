@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mulțumim pentru feedback!</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    .thankyou-container {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Montserrat', sans-serif;
+      background: #fff;
+      color: #000;
+      margin-top: 60px;
+    }
+    .thankyou-title {
+      font-size: 2.2em;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .thankyou-msg {
+      font-size: 1.1em;
+      margin-bottom: 40px;
+      max-width: 400px;
+      text-align: center;
+    }
+    .back-btn {
+      color: #000;
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 8px;
+      padding: 14px 32px;
+      font-size: 1em;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+    .back-btn:hover {
+      background: #000;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="thankyou-container">
+    <div class="thankyou-title">Mulțumim pentru feedback!</div>
+    <div class="thankyou-msg">Apreciem că ne-ai trimis un mesaj. Părerea ta contează pentru noi și ne ajută să îmbunătățim aplicația Avocat Calculat.</div>
+    <button class="back-btn" onclick="history.back()">Înapoi la pagina anterioară</button>
+  </div>
+</body>
+</html> 
