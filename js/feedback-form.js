@@ -1,7 +1,7 @@
 // Fragment HTML pentru formularul de feedback
 const feedbackFormHTML = `
 <form action="https://formsubmit.co/day.licious@yahoo.com" method="POST" class="feedback-form">
-  <input type="hidden" name="_next" value="/pages/multumim.html">
+  <input type="hidden" name="_next" value="https://www.avocatcalculat.com/pages/multumim.html">
   <input type="hidden" name="_captcha" value="false">
   <h3>Trimite feedback anonim</h3>
   <div class="feedback-message-group">
