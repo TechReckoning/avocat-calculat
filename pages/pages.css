@@ -587,3 +587,56 @@ footer {
   background: #fff;
   color: #000;
 } 
+
+.zodie {
+  margin-bottom: 2em;
+  padding: 1em;
+  border-bottom: 1px solid #eee;
+}
+.zodie-header {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+}
+.nume-zodie {
+  color: #b8860b;
+  letter-spacing: 1px;
+}
+.zodie-text p {
+  margin: 0;
+  color: #333;
+}
+.footer {
+  text-align: center;
+  color: #888;
+  font-size: 0.95em;
+  margin-top: 3em;
+  padding: 1em 0;
+  border-top: 1px solid #eee;
+  background: #fafafa;
+} 
+
+.recomandare-img {
+  max-width: 320px;
+  max-height: 220px;
+  border-radius: 8px;
+  margin: 0 auto 12px auto;
+  display: block;
+}
+.recomandare-titlu {
+  color: #9CAF88;
+  font-weight: 600;
+  font-size: 1.1em;
+  margin-bottom: 6px;
+  text-align: center;
+}
+.recomandare-text {
+  font-size: 1em;
+  color: #222;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.recomandare-entry {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 18px 0;
+  text-align: center;
+} 

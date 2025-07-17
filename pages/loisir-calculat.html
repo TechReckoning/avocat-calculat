@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loisir Calculat</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    .loisir-main-card {
+      max-width: 420px;
+      margin: 60px auto 0 auto;
+      border-radius: 18px;
+      box-shadow: 0 2px 16px rgba(156,175,136,0.10);
+      border: 2px solid #9CAF88;
+      background: #fff;
+      padding: 40px 24px 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .loisir-inner-card {
+      width: 100%;
+      background: #f7f9f5;
+      border: 2px solid #9CAF88;
+      border-radius: 12px;
+      color: #9CAF88;
+      font-weight: 600;
+      font-size: 1.2em;
+      margin: 18px 0;
+      cursor: pointer;
+      transition: box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(156,175,136,0.08);
+      text-align: center;
+      padding: 28px 0;
+    }
+    .loisir-inner-card:hover {
+      box-shadow: 0 4px 16px rgba(156,175,136,0.18);
+      background: #eaf2e0;
+    }
+    .loisir-back-btn {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      z-index: 10;
+    }
+    @media (max-width: 600px) {
+      .loisir-main-card { max-width: 98vw; padding: 24px 4vw 18px 4vw; }
+      .loisir-back-btn { left: 8px; top: 8px; }
+    }
+  </style>
+</head>
+<body style="min-height:100vh; position:relative;">
+  <a href="../index.html" class="back-btn loisir-back-btn">&larr; Înapoi la Dashboard</a>
+  <div class="loisir-main-card">
+    <div class="loisir-inner-card" onclick="window.location.href='astrele.html'">Astrele avocaților</div>
+    <div class="loisir-inner-card" onclick="window.location.href='recomandare.html'">Recomandarea săptămânii</div>
+  </div>
+  <footer class="footer">
+    &copy; 2024 Tech Reckoning. Toate drepturile rezervate.
+  </footer>
+</body>
+</html> 

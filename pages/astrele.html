@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ce nu spun cifrele, știu astrele</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <style>
+    .astrele-main-card {
+      max-width: 700px;
+      margin: 60px auto 0 auto;
+      border-radius: 18px;
+      box-shadow: 0 2px 16px rgba(156,175,136,0.10);
+      border: 2px solid #9CAF88;
+      background: #fff;
+      padding: 40px 24px 32px 24px;
+    }
+    @media (max-width: 800px) {
+      .astrele-main-card { max-width: 98vw; padding: 24px 4vw 18px 4vw; }
+    }
+    .astrele-back-btn {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body style="min-height:100vh; position:relative;">
+  <a href="loisir-calculat.html" class="back-btn astrele-back-btn">&larr; Înapoi la Loisir Calculat</a>
+  <div class="astrele-main-card">
+    <div style="color: #9CAF88; font-size: 2em; font-weight: 700; margin-bottom: 18px; text-align: center;">Astrele avocaților</div>
+    <div id="horoscop-week" style="font-size: 1.1em; color: #555; text-align: center; margin-bottom: 32px;"></div>
+    <div id="horoscop-list"></div>
+  </div>
+  <script>
+    async function loadHoroscop() {
+      const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEiwCMKmV2RO82WrU1o36_3lHj2fi_uR23NyNkqxk9JeT40jBTDeEBeGx36AddiO7IjCio_TvbBrF5/pub?gid=0&single=true&output=csv";
+      const res = await fetch(url);
+      const text = await res.text();
+      const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+      const data = parsed.data;
+      console.log("DATA:", data);
+      // Găsește săptămâna curentă (ultima din listă)
+      const saptamani = [...new Set(data.map(row => row['saptamana']).filter(Boolean))];
+      const saptamanaCurenta = saptamani[saptamani.length-1];
+      console.log("Săptămâni:", saptamani, "Săptămâna curentă:", saptamanaCurenta);
+      document.getElementById('horoscop-week').textContent = 'Săptămâna: ' + saptamanaCurenta;
+      const zodii = data.filter(row => row['saptamana'] === saptamanaCurenta);
+      console.log("Zodii pentru săptămâna curentă:", zodii);
+      const list = document.getElementById('horoscop-list');
+      list.innerHTML = '';
+      if(zodii.length === 0) {
+        list.innerHTML = '<div style="color:#b00;text-align:center;">Nu există date pentru această săptămână.</div>';
+      } else {
+        zodii.forEach(row => {
+          console.log("Zodie:", row);
+          const div = document.createElement('div');
+          div.className = 'zodie';
+          div.innerHTML = `
+            <div class="zodie-header">
+              <span class="nume-zodie"><strong>${row['zodie']}</strong></span>
+            </div>
+            <div class="zodie-text">
+              <p>${row['horoscop'] || row['text_horoscop'] || ''}</p>
+            </div>
+          `;
+          list.appendChild(div);
+        });
+      }
+    }
+    loadHoroscop();
+  </script>
+<footer class="footer">
+  &copy; 2024 Tech Reckoning. Toate drepturile rezervate.
+</footer>
+</body>
+</html> 
