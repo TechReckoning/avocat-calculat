@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculator de Procente - Avocat Calculat</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../pages/pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://avocatcalculat.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <style>
+    .tab-group { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; }
+    .tab-btn {
+      background: #000; color: #fff; border: 2px solid #000; border-radius: 8px;
+      font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1em;
+      padding: 12px 24px; cursor: pointer; transition: all 0.2s; outline: none;
+    }
+    .tab-btn:not(.active) { background: #fff; color: #000; }
+    .tab-btn.active, .tab-btn:focus { background: #000; color: #fff; }
+    @media (max-width: 600px) {
+      .tab-group { flex-direction: column; gap: 8px; }
+      .tab-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <a href="../index.html" class="back-btn">← Înapoi la Dashboard</a>
+    </nav>
+    <h1>Calculator de Procente</h1>
+  </header>
+  <main class="calculator-container">
+    <div class="intro-text">
+      <div class="container-text">
+        <p>Un instrument rapid pentru calculul valorii procentuale, aflarea procentului sau a sumei inițiale pe baza procentului aplicat.</p>
+        <ul>
+          <li><b>1. X% din Y:</b> <i>15% din 200 = 0.15 × 200 = <b>30</b></i></li>
+          <li><b>2. X este ce procent din Y:</b> <i>30 din 200 = (30 ÷ 200) × 100 = <b>15%</b></i></li>
+          <li><b>3. X este Y% din ce sumă:</b> <i>30 este 15% din 30 ÷ 0.15 = <b>200</b></i></li>
+        </ul>
+      </div>
+    </div>
+    <div class="calculator-form">
+      <div class="tab-group" id="tab-group">
+        <button class="tab-btn active" data-tab="valoare-procentuala">X% din Y</button>
+        <button class="tab-btn" data-tab="procent-calc">X este ce procent din Y</button>
+        <button class="tab-btn" data-tab="suma-initiala">X este Y% din ce sumă</button>
+      </div>
+      <form id="procente-form">
+        <!-- Mod 1: Valoare procentuală -->
+        <div class="tab-content" id="valoare-procentuala">
+          <div class="form-group">
+            <label for="procent" class="form-label">Procent (%)</label>
+            <input type="number" min="0" step="any" id="procent" name="procent" placeholder="Ex: 15" required class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="suma_baza" class="form-label">Sumă de bază</label>
+            <input type="number" min="0" step="any" id="suma_baza" name="suma_baza" placeholder="Ex: 200" required class="form-input" />
+          </div>
+        </div>
+        <!-- Mod 2: Procent -->
+        <div class="tab-content" id="procent-calc" style="display:none;">
+          <div class="form-group">
+            <label for="valoare_partiala" class="form-label">Valoare parțială</label>
+            <input type="number" min="0" step="any" id="valoare_partiala" name="valoare_partiala" placeholder="Ex: 30" required class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="valoare_totala" class="form-label">Valoare totală</label>
+            <input type="number" min="0" step="any" id="valoare_totala" name="valoare_totala" placeholder="Ex: 200" required class="form-input" />
+          </div>
+        </div>
+        <!-- Mod 3: Suma inițială -->
+        <div class="tab-content" id="suma-initiala" style="display:none;">
+          <div class="form-group">
+            <label for="valoare_procentuala" class="form-label">Valoare procentuală</label>
+            <input type="number" min="0" step="any" id="valoare_procentuala" name="valoare_procentuala" placeholder="Ex: 30" required class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="procent_aplicat" class="form-label">Procent aplicat (%)</label>
+            <input type="number" min="0" step="any" id="procent_aplicat" name="procent_aplicat" placeholder="Ex: 15" required class="form-input" />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="results" id="rezultate" style="display:none;">
+      <h3>Rezultat</h3>
+      <div id="valoare_rezultat" class="result"></div>
+      <div id="formula_rezultat" class="formula"></div>
+      <div id="mesaj_rezultat" class="desfasurare"></div>
+    </div>
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> Acest calculator are scop exclusiv informativ și nu reprezintă consultanță juridică. Pentru soluții personalizate, consultați un avocat sau specialist autorizat.
+    </div>
+  </main>
+  <footer>
+    <p>© 2025 TechReckoning | Toate drepturile rezervate. Informațiile prezentate nu constituie consultanță juridică și nu creează o relație avocat-client.</p>
+  </footer>
+  <script src="../js/feedback-form.js"></script>
+  <script src="../js/procente.js"></script>
+</body>
+</html> 

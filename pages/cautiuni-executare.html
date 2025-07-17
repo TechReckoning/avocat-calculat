@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculator Cauțiune Executare Silită - Avocat Calculat</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../pages/pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://avocatcalculat.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <a href="../index.html" class="back-btn">← Înapoi la Dashboard</a>
+    </nav>
+    <h1>Calculator Cauțiune Executare Silită</h1>
+    <p style="max-width:700px;margin:0 auto;text-align:center;font-weight:500;">Calculează rapid valoarea cauțiunii pentru contestația la executare, conform Codului de procedură civilă.</p>
+  </header>
+
+  <main class="calculator-container">
+    <div class="calculator-form">
+      <form id="cautiuni-form">
+        <div class="form-group">
+          <label for="valoareCont">Valoarea obiectului contestației (lei)</label>
+          <input type="number" min="0" step="any" id="valoareCont" name="valoareCont" placeholder="Ex: 25000" required />
+        </div>
+        <button type="submit" class="calculate-btn">Calculează</button>
+      </form>
+    </div>
+    <div class="results" id="rezultate" style="display:none;">
+      <h3>Rezultat</h3>
+      <div id="valoare_rezultat" class="result"></div>
+      <div id="formula_rezultat" class="formula"></div>
+      <div id="mesaj_rezultat" class="desfasurare"></div>
+    </div>
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> Acest calculator are scop exclusiv informativ și nu reprezintă consultanță juridică. Pentru soluții personalizate, consultați un avocat sau specialist autorizat.
+    </div>
+  </main>
+  <footer>
+    <p>© 2025 TechReckoning | Toate drepturile rezervate. Informațiile prezentate nu constituie consultanță juridică și nu creează o relație avocat-client.</p>
+  </footer>
+  <script src="../js/feedback-form.js"></script>
+  <script src="../js/cautiuni-executare.js"></script>
+</body>
+</html> 
