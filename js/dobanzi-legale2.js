@@ -81,10 +81,86 @@ function dobandaAnuala(tip, rataBNR) {
     switch (tip) {
         case "uzual": return rataBNR + 0.04;
         case "profesionisti": return rataBNR + 0.08;
+        case "profesionisti-art4": return rataBNR + 0.08; // Aceeași rată ca profesioniști
         case "extraneitate": return 0.06;
         case "faraScop": return 0.8 * (rataBNR + 0.04);
         default: return null;
     }
+}
+
+// Funcție pentru calculul pe semestre conform art. 4 din Legea nr. 72/2013
+function getSemesterRates(start, end, bnrRates) {
+    let semestre = [];
+    let currentDate = new Date(start);
+    currentDate.setUTCDate(currentDate.getUTCDate() + 1); // Începe a doua zi după scadență
+    let endDate = new Date(end);
+    
+    while (currentDate <= endDate) {
+        let semesterStart = new Date(currentDate);
+        let semesterEnd = new Date(currentDate);
+        
+        // Determină semestrul (ianuarie-iunie sau iulie-decembrie)
+        let month = currentDate.getUTCMonth();
+        let year = currentDate.getUTCFullYear();
+        
+        if (month < 6) {
+            // Semestrul I (ianuarie-iunie)
+            semesterStart = new Date(Date.UTC(year, 0, 1, 12, 0, 0)); // 1 ianuarie
+            semesterEnd = new Date(Date.UTC(year, 5, 30, 12, 0, 0)); // 30 iunie
+        } else {
+            // Semestrul II (iulie-decembrie)
+            semesterStart = new Date(Date.UTC(year, 6, 1, 12, 0, 0)); // 1 iulie
+            semesterEnd = new Date(Date.UTC(year, 11, 31, 12, 0, 0)); // 31 decembrie
+        }
+        
+        // Ajustează începutul și sfârșitul la perioada de calcul
+        if (semesterStart < currentDate) {
+            semesterStart = new Date(currentDate);
+        }
+        if (semesterEnd > endDate) {
+            semesterEnd = new Date(endDate);
+        }
+        
+        // Găsește rata BNR pentru prima zi a semestrului
+        let semesterRateStart = new Date(semesterStart);
+        if (month < 6) {
+            semesterRateStart = new Date(Date.UTC(year, 0, 1, 12, 0, 0)); // 1 ianuarie
+        } else {
+            semesterRateStart = new Date(Date.UTC(year, 6, 1, 12, 0, 0)); // 1 iulie
+        }
+        
+        // Caută rata BNR valabilă la începutul semestrului
+        let rataBNR = 0;
+        for (let i = bnrRates.length - 1; i >= 0; i--) {
+            let rateDate = parseDate(bnrRates[i].start);
+            if (rateDate <= semesterRateStart) {
+                rataBNR = Number(bnrRates[i].rate) / 100;
+                break;
+            }
+        }
+        
+        let zile = daysBetween(semesterStart, semesterEnd);
+        // Adaug +1 pentru ultimul semestru care se termină cu data calculului
+        if (semesterEnd.getTime() === endDate.getTime()) {
+            zile += 1;
+        }
+        if (zile > 0) {
+            semestre.push({
+                start: semesterStart,
+                end: semesterEnd,
+                zile,
+                rataBNR,
+                semesterType: month < 6 ? 'I' : 'II',
+                year: year
+            });
+        }
+        
+        // Avansează la următorul semestru
+        currentDate = new Date(semesterEnd);
+        currentDate.setUTCDate(currentDate.getUTCDate() + 1);
+    }
+    
+    return semestre;
 }
 
 function formatDate(date) {
@@ -97,35 +173,63 @@ function format2(val) {
 }
 
 function calcDobanda({ suma, dataScadenta, dataCalcul, tipRaport, bnrRates }) {
-    let transe = getBNRTranches(dataScadenta, dataCalcul, bnrRates);
     let totalDobanda = 0;
     let detalii = [];
-    for (let t of transe) {
-        let dobAnuala = dobandaAnuala(tipRaport, t.rataBNR);
-        if (dobAnuala === null) continue;
-        let yStart = t.start.getUTCFullYear();
-        let yEnd = t.end.getUTCFullYear();
-        let subStart = new Date(t.start);
-        while (yStart <= yEnd) {
-            let subEnd = (yStart === yEnd) ? t.end : parseDate(`${yStart}-12-31`);
-            let zile = daysBetween(subStart, subEnd);
-            console.log('[detaliu]', { subStart: subStart.toISOString(), subEnd: subEnd.toISOString(), zile });
-            let zileAn = daysInYear(yStart);
-            let dobanda = suma * dobAnuala * zile / zileAn;
+    
+    if (tipRaport === "profesionisti-art4") {
+        // Logica specială pentru art. 4 din Legea nr. 72/2013 - calcul pe semestre
+        let semestre = getSemesterRates(dataScadenta, dataCalcul, bnrRates);
+        
+        for (let semestru of semestre) {
+            let dobAnuala = dobandaAnuala(tipRaport, semestru.rataBNR);
+            if (dobAnuala === null) continue;
+            
+            let zileAn = daysInYear(semestru.year);
+            let dobanda = suma * dobAnuala * semestru.zile / zileAn;
             totalDobanda += dobanda;
+            
             detalii.push({
-                perioada: `${formatDate(subStart)} – ${formatDate(subEnd)}`,
-                zile,
-                zileAn,
-                rataBNR: (t.rataBNR * 100).toFixed(2) + '%',
+                perioada: `${formatDate(semestru.start)} – ${formatDate(semestru.end)}`,
+                zile: semestru.zile,
+                zileAn: zileAn,
+                rataBNR: (semestru.rataBNR * 100).toFixed(2) + '%',
                 dobAplicata: (dobAnuala * 100).toFixed(2) + '%',
-                dobandaRON: dobanda.toFixed(2)
+                dobandaRON: dobanda.toFixed(2),
+                semestru: `Semestrul ${semestru.semesterType} ${semestru.year}`
             });
-            if (yStart === yEnd) break;
-            yStart++;
-            subStart = parseDate(`${yStart}-01-01`);
+        }
+    } else {
+        // Logica existentă pentru celelalte tipuri de raport juridic
+        let transe = getBNRTranches(dataScadenta, dataCalcul, bnrRates);
+        
+        for (let t of transe) {
+            let dobAnuala = dobandaAnuala(tipRaport, t.rataBNR);
+            if (dobAnuala === null) continue;
+            let yStart = t.start.getUTCFullYear();
+            let yEnd = t.end.getUTCFullYear();
+            let subStart = new Date(t.start);
+            while (yStart <= yEnd) {
+                let subEnd = (yStart === yEnd) ? t.end : parseDate(`${yStart}-12-31`);
+                let zile = daysBetween(subStart, subEnd);
+                console.log('[detaliu]', { subStart: subStart.toISOString(), subEnd: subEnd.toISOString(), zile });
+                let zileAn = daysInYear(yStart);
+                let dobanda = suma * dobAnuala * zile / zileAn;
+                totalDobanda += dobanda;
+                detalii.push({
+                    perioada: `${formatDate(subStart)} – ${formatDate(subEnd)}`,
+                    zile,
+                    zileAn,
+                    rataBNR: (t.rataBNR * 100).toFixed(2) + '%',
+                    dobAplicata: (dobAnuala * 100).toFixed(2) + '%',
+                    dobandaRON: dobanda.toFixed(2)
+                });
+                if (yStart === yEnd) break;
+                yStart++;
+                subStart = parseDate(`${yStart}-01-01`);
+            }
         }
     }
+    
     return {
         detalii,
         totalDobanda: totalDobanda.toFixed(2)
@@ -196,7 +300,12 @@ window.addEventListener('DOMContentLoaded', async () => {
         detalii.forEach(row => {
             totalZile += row.zile;
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${row.perioada}</td><td>${row.zile}</td><td>${row.zileAn}</td><td>${row.rataBNR}</td><td>${row.dobAplicata}</td><td>${row.dobandaRON}</td>`;
+            if (tipRaport === "profesionisti-art4" && row.semestru) {
+                // Pentru noul tip, afișează și informația despre semestru
+                tr.innerHTML = `<td>${row.perioada}<br><small style="color:#666;">${row.semestru}</small></td><td>${row.zile}</td><td>${row.zileAn}</td><td>${row.rataBNR}</td><td>${row.dobAplicata}</td><td>${row.dobandaRON}</td>`;
+            } else {
+                tr.innerHTML = `<td>${row.perioada}</td><td>${row.zile}</td><td>${row.zileAn}</td><td>${row.rataBNR}</td><td>${row.dobAplicata}</td><td>${row.dobandaRON}</td>`;
+            }
             transeTableBody.appendChild(tr);
         });
         totalDobandaCell.innerHTML = `<strong>${totalDobanda} RON</strong>`;
