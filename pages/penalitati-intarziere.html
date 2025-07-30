@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculator Orientativ de Penalități de Întârziere - Avocat Calculat</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../pages/pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://avocatcalculat.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <a href="../index.html" class="back-btn">← Înapoi la Dashboard</a>
+    </nav>
+    <h1>Calculator Orientativ de Penalități de Întârziere</h1>
+  </header>
+
+  <main class="calculator-container">
+    <div class="intro-text">
+      <div class="container-text">
+        <p>Calculează rapid penalitățile de întârziere pentru obligațiile contractuale, pe baza sumei scadente, datelor și procentului stabilit contractual.</p>
+        <p><strong>Formula aplicată:</strong> Penalități = Suma scadentă × (Procent/100) × Numărul de zile de întârziere</p>
+      </div>
+    </div>
+
+    <div class="calculator-form">
+      <form id="penalitati-form">
+        <div class="form-group">
+          <label for="suma_scadenta" class="form-label">Suma scadentă (lei)</label>
+          <input type="text" id="suma_scadenta" name="suma_scadenta" placeholder="Ex: 10000.50 sau 10000,50" required class="form-input" />
+          <small class="form-help">Introduceți suma folosind punct (.) sau virgulă (,) pentru zecimale. Exemple: 10000.50, 15000,75, 5000</small>
+        </div>
+
+        <div class="form-group">
+          <label for="data_scadenta" class="form-label">Data scadenței</label>
+          <input type="date" id="data_scadenta" name="data_scadenta" required class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label for="data_calcul" class="form-label">Data calculului</label>
+          <input type="date" id="data_calcul" name="data_calcul" required class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label for="procent_penalitati" class="form-label">Procentul penalităților (%/zi)</label>
+          <input type="text" id="procent_penalitati" name="procent_penalitati" placeholder="Ex: 0.1 pentru 0,1% pe zi" required class="form-input" />
+          <small class="form-help">Introduceți procentul pe zi folosind punct (.) sau virgulă (,) pentru zecimale. Exemple: 0.1, 0,05, 0.25</small>
+        </div>
+
+        <button type="button" onclick="resetCalculator()" class="calculate-btn">Resetare</button>
+      </form>
+    </div>
+
+    <div class="results" id="rezultate" style="display:none;">
+      <h3>Rezultatul Calculului</h3>
+      <div class="result-item">
+        <span class="label">Numărul de zile de întârziere:</span>
+        <span class="value" id="zile_intarziere">–</span>
+      </div>
+      <div class="result-item">
+        <span class="label">Valoarea totală a penalităților:</span>
+        <span class="value" id="penalitati_total">–</span>
+      </div>
+      <div class="result-item total">
+        <span class="label">Calcul desfășurat:</span>
+        <span class="value" id="calcul_desfasurat">–</span>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> Calculul are caracter <strong>orientativ</strong> și nu poate înlocui interpretarea juridică sau evaluarea specifică a unui profesionist. Platforma avocatcalculat.com nu își asumă responsabilitatea pentru folosirea rezultatelor în scopuri juridice sau comerciale.
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 TechReckoning | Toate drepturile rezervate. Informațiile prezentate nu constituie consultanță juridică și nu creează o relație avocat-client.</p>
+  </footer>
+
+  <script src="../js/feedback-form.js"></script>
+  <script src="../js/penalitati-intarziere.js"></script>
+</body>
+</html> 
