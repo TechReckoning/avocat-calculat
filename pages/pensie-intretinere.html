@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculator Pensie de Întreținere - Avocat Calculat</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../pages/pages.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://avocatcalculat.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <a href="../index.html" class="back-btn">← Înapoi la Dashboard</a>
+    </nav>
+    <h1>Calculator Orientativ de Pensie de Întreținere</h1>
+    <p style="max-width:700px;margin:0 auto;text-align:center;font-weight:500;">Conform art. 529 alin. (2) C.civ.</p>
+  </header>
+
+  <main class="calculator-container">
+    <div class="calculator-form">
+      <div class="form-group">
+        <label for="venit-net">Venit lunar net total al debitorului (RON):</label>
+        <small style="text-align:left;display:block;">Folosiți punctul (.) pentru zecimale, ex: 8000.50</small>
+        <input 
+          id="venit-net" 
+          name="venit-net" 
+          type="text" 
+          onkeyup="calculeazaPensie();" 
+          placeholder="Ex. 8000.50"
+          aria-describedby="venit-help"
+        />
+        <div id="venit-help" class="form-help">Introduceți venitul lunar net total al părintelui debitor</div>
+      </div>
+
+      <div class="form-group">
+        <label for="total-copii">Numărul total de copii pentru care se datorează întreținere:</label>
+        <select 
+          id="total-copii" 
+          name="total-copii" 
+          onchange="calculeazaPensie();"
+          aria-describedby="copii-help"
+        >
+          <option value="">Selectați numărul de copii</option>
+          <option value="1">1 copil</option>
+          <option value="2">2 copii</option>
+          <option value="3">3 sau mai mulți copii</option>
+        </select>
+        <div id="copii-help" class="form-help">Toți copiii pentru care debitorul datorează întreținere (nu doar în cauza curentă)</div>
+      </div>
+
+      <button type="button" onclick="resetCalculator()" class="calculate-btn">Resetare</button>
+    </div>
+
+    <div class="results" id="rezultate" style="display: none;">
+      <h3>Rezultate</h3>
+      <div class="result-item">
+        <span class="label">Fracția legală aplicabilă (art. 529 alin. 2):</span>
+        <span class="value" id="fractie-legal">–</span>
+      </div>
+      <div class="result-item">
+        <span class="label">Plafon maxim total întreținere (toți copiii):</span>
+        <span class="value" id="plafon-total">–</span>
+      </div>
+      <div class="result-item total">
+        <span class="label">Plafon maxim pe copil în cauza curentă:</span>
+        <span class="value" id="plafon-per-copil">–</span>
+      </div>
+      
+      <div class="button-group" style="margin-top: 25px;">
+        <button type="button" onclick="copieazaRezultatele()" class="calculate-btn">Copiază rezultatele</button>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Bază legală:</strong> Potrivit art. 529 alin. (2) C.civ., întreținerea datorată de părinte pentru copil se stabilește până la 1/4 din venitul lunar net pentru un copil, 1/3 pentru 2 copii și 1/2 pentru 3 sau mai mulți. Rezultatul acestui calculator este orientativ și reprezintă un <strong>plafon maxim</strong>; instanța stabilește cuantumul în funcție de nevoile copilului și mijloacele părintelui (art. 529 alin. (1)).
+    </div>
+
+    <div class="form-info">
+      <strong>Rețineți:</strong>
+      <ul style="margin: 10px 0; padding-left: 20px;">
+        <li>Calculul oferă <strong>plafon maxim</strong> (nu cuantumul final).</li>
+        <li>Instanța poate stabili sume mai mici/egale în funcție de nevoi/probe.</li>
+        <li>Dacă există mai mulți copii, plafonul se raportează la <strong>toți</strong> copiii pentru care se datorează întreținere.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 TechReckoning | Toate drepturile rezervate. Informațiile prezentate nu constituie consultanță juridică și nu creează o relație avocat-client.</p>
+  </footer>
+  <script src="../js/feedback-form.js"></script>
+  <script src="../js/pensie-intretinere.js"></script>
+</body>
+</html>
