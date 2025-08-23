@@ -26,7 +26,10 @@
         <input id="val_p" name="val_p" type="text" onkeyup="calc();" placeholder="Ex. 10000.57"/>
       </div>
 
-      <button type="button" onclick="resetCalculator()" class="calculate-btn">Resetare</button>
+      <div class="button-group">
+        <button type="button" onclick="resetCalculator()" class="calculate-btn">Resetare</button>
+        <button type="button" onclick="exportResultsToPDF()" class="export-btn" id="exportBtn" style="display:none;">Export PDF</button>
+      </div>
     </div>
 
     <div class="results" id="rezultate">
@@ -64,7 +67,9 @@
   <footer>
     <p>© 2025 TechReckoning | Toate drepturile rezervate. Informațiile prezentate nu constituie consultanță juridică și nu creează o relație avocat-client.</p>
   </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="../js/feedback-form.js"></script>
+  <script src="../js/pdf-export.js"></script>
   <script src="../js/taxe-judiciare.js"></script>
 </body>
 </html> 

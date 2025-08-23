@@ -17,6 +17,9 @@ function calcul(val_p) {
     document.getElementById('desfasurare_f').innerText = '';
     document.getElementById('desfasurare_a').innerText = '';
     document.getElementById('desfasurare_r').innerText = '';
+    
+    // Ascunde butonul de export dacă nu sunt rezultate
+    document.getElementById('exportBtn').style.display = 'none';
     return;
   }
 
@@ -97,6 +100,9 @@ function calcul(val_p) {
   document.getElementById('desfasurare_f').innerHTML = desfasurare_f + '<br><span style="color:#555;font-size:0.95em;">' + calcul_f + '</span>';
   document.getElementById('desfasurare_a').innerHTML = desfasurare_a + '<br><span style="color:#555;font-size:0.95em;">' + calcul_a + '</span>';
   document.getElementById('desfasurare_r').innerHTML = desfasurare_r + '<br><span style="color:#555;font-size:0.95em;">' + calcul_r + '</span>';
+  
+  // Afișează butonul de export când sunt rezultate
+  document.getElementById('exportBtn').style.display = 'inline-block';
 }
 
 function resetCalculator() {
@@ -110,4 +116,24 @@ function resetCalculator() {
   document.getElementById('desfasurare_f').innerText = '';
   document.getElementById('desfasurare_a').innerText = '';
   document.getElementById('desfasurare_r').innerText = '';
+} 
+
+// Funcție pentru export PDF
+function exportResultsToPDF() {
+  const calculatorName = 'Calculator Taxe Judiciare de Timbru la Valoare';
+  
+  // Colectează datele din formular
+  const inputData = collectFormData('.calculator-form');
+  
+  // Colectează rezultatele
+  const results = collectResults();
+  
+  // Verifică dacă sunt rezultate
+  if (Object.keys(results).length === 0) {
+    alert('Nu există rezultate de exportat. Vă rugăm să faceți un calcul mai întâi.');
+    return;
+  }
+  
+  // Exportă PDF-ul
+  exportToPDF(calculatorName, inputData, results);
 } 

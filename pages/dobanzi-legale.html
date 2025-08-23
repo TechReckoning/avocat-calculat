@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="../pages/pages.css" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <script data-goatcounter="https://avocatcalculat.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
   <header>
@@ -62,7 +63,9 @@
         </div>
       </div>
 
-      <!-- Elimin butonul de submit pentru calcul live -->
+      <div class="button-group">
+        <button type="button" onclick="exportResultsToPDF()" class="export-btn" id="exportBtn" style="display:none;">Export PDF</button>
+      </div>
     </form>
 
     <div id="results" class="results">
@@ -124,5 +127,6 @@
 
   <script src="../js/dobanzi-legale2.js"></script>
   <script src="../js/feedback-form.js"></script>
+  <script src="../js/pdf-export.js"></script>
 </body>
 </html> 

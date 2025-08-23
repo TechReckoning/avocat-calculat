@@ -120,6 +120,10 @@
         <span class="label">Explicație:</span>
         <span class="value" id="explicatie">-</span>
       </div>
+      
+      <div class="button-group">
+        <button type="button" onclick="exportResultsToPDF()" class="export-btn" id="exportBtn" style="display:none;">Export PDF</button>
+      </div>
     </div>
     <div class="disclaimer">
       <strong>Disclaimer:</strong> Acest calculator are scop exclusiv informativ și nu reprezintă consultanță juridică. Pentru soluții personalizate, consultați un avocat sau specialist autorizat. Valorile calculate pot varia în funcție de circumstanțele concrete ale fiecărei cauze și de interpretarea instanței.
@@ -130,6 +134,7 @@
     <p>© 2025 TechReckoning | Toate drepturile rezervate. Informațiile prezentate nu constituie consultanță juridică și nu creează o relație avocat-client.</p>
   </footer>
   <script src="../js/feedback-form.js"></script>
+  <script src="../js/pdf-export.js"></script>
   <script src="../js/cautiuni-achizitii.js"></script>
 </body>
 </html> 

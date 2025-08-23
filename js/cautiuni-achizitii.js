@@ -7,10 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const tipContestatie = document.querySelector('input[name="tipContestatie"]:checked')?.value;
     const lege = document.querySelector('input[name="lege"]:checked')?.value;
     const prag = Number(document.querySelector('input[name="prag"]:checked')?.value);
+    
     if (!valoare || !tipContestatie || !lege || !prag) {
       document.getElementById('rezultate').style.display = 'none';
+      // Ascunde butonul de export când nu sunt rezultate
+      document.getElementById('exportBtn').style.display = 'none';
       return;
     }
+    
     function calcPlafon(valoare, prag, tipContestatie) {
       if (valoare < prag) {
         return tipContestatie === "documentatie" ? 35000 : 88000;
@@ -18,20 +22,26 @@ document.addEventListener('DOMContentLoaded', function() {
         return tipContestatie === "documentatie" ? 220000 : 2000000;
       }
     }
+    
     const provizorie = +(valoare * 0.02).toFixed(2);
     const plafon = calcPlafon(valoare, prag, tipContestatie);
     const finala = Math.min(provizorie, plafon);
     let explanation = "";
+    
     if (provizorie > plafon) {
       explanation = `Cauțiunea provizorie (${provizorie.toLocaleString('ro-RO', {minimumFractionDigits: 2, maximumFractionDigits: 2})} lei) depășește plafonul maxim aplicabil (${plafon.toLocaleString('ro-RO')} lei), deci cauțiunea finală este plafonată.`;
     } else {
       explanation = `Cauțiunea provizorie (${provizorie.toLocaleString('ro-RO', {minimumFractionDigits: 2, maximumFractionDigits: 2})} lei) este sub plafonul maxim aplicabil (${plafon.toLocaleString('ro-RO')} lei), deci cauțiunea finală este egală cu cea provizorie.`;
     }
+    
     document.getElementById('cautiune-finala').textContent = finala.toLocaleString('ro-RO', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' lei';
     document.getElementById('cautiune-provizorie').textContent = provizorie.toLocaleString('ro-RO', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' lei';
     document.getElementById('plafon-maxim').textContent = plafon.toLocaleString('ro-RO') + ' lei';
     document.getElementById('explicatie').textContent = explanation;
     document.getElementById('rezultate').style.display = 'block';
+    
+    // Afișează butonul de export când sunt rezultate
+    document.getElementById('exportBtn').style.display = 'inline-block';
   }
 
   // Toate inputurile relevante declanșează recalcularea
@@ -117,4 +127,79 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Expun funcția pentru butonul din HTML
   window.calculeazaCautiune = liveCautiune;
-}); 
+});
+
+// Funcție pentru export PDF
+function exportResultsToPDF() {
+  const calculatorName = 'Calculator Orientativ de Cauțiuni în Domeniul Achizițiilor Publice, Sectoriale și Concesiunilor';
+  
+  // Colectează datele din formular
+  const inputData = {};
+  
+  // Tip procedura
+  const tipProcedura = document.querySelector('input[name="tipProcedura"]:checked')?.value;
+  if (tipProcedura) {
+    const label = tipProcedura === 'contract' ? 'Contract' : 'Acord-cadru';
+    inputData.tipProcedura = { label: 'Tip procedură', value: label, unit: '' };
+  }
+  
+  // Pe loturi
+  const peLoturi = document.querySelector('input[name="peLoturi"]:checked')?.value;
+  if (peLoturi) {
+    const label = peLoturi === 'da' ? 'Da' : 'Nu';
+    inputData.peLoturi = { label: 'Procedură pe loturi', value: label, unit: '' };
+  }
+  
+  // Valoarea
+  const valoare = document.getElementById('valoare').value;
+  if (valoare) {
+    inputData.valoare = { label: 'Valoarea relevantă pentru calcul cauțiune', value: valoare + ' lei', unit: '' };
+  }
+  
+  // Tip contestație
+  const tipContestatie = document.querySelector('input[name="tipContestatie"]:checked')?.value;
+  if (tipContestatie) {
+    const label = tipContestatie === 'documentatie' ? 'Contestație privind documentația de atribuire' : 'Contestație privind rezultatul procedurii de atribuire';
+    inputData.tipContestatie = { label: 'Tip contestație', value: label, unit: '' };
+  }
+  
+  // Legea
+  const lege = document.querySelector('input[name="lege"]:checked')?.value;
+  if (lege) {
+    let label = '';
+    switch(lege) {
+      case '98': label = 'Legea nr. 98/2016'; break;
+      case '99': label = 'Legea nr. 99/2016'; break;
+      case '100': label = 'Legea nr. 100/2016'; break;
+    }
+    inputData.lege = { label: 'Legea aplicabilă', value: label, unit: '' };
+  }
+  
+  // Pragul valoric
+  const prag = document.querySelector('input[name="prag"]:checked')?.value;
+  if (prag) {
+    const pragLabel = document.querySelector('input[name="prag"]:checked').parentElement.textContent.trim();
+    inputData.prag = { label: 'Prag valoric aplicabil', value: pragLabel, unit: '' };
+  }
+  
+  // Colectează rezultatele
+  const results = {};
+  const cautiuneFinala = document.getElementById('cautiune-finala').textContent;
+  const cautiuneProvizorie = document.getElementById('cautiune-provizorie').textContent;
+  const plafonMaxim = document.getElementById('plafon-maxim').textContent;
+  const explicatie = document.getElementById('explicatie').textContent;
+  
+  if (cautiuneFinala !== '-') results.cautiuneFinala = { label: 'Cauțiunea finală', value: cautiuneFinala, formula: '2% plafonat', details: '' };
+  if (cautiuneProvizorie !== '-') results.cautiuneProvizorie = { label: 'Cauțiunea provizorie', value: cautiuneProvizorie, formula: '2%', details: '' };
+  if (plafonMaxim !== '-') results.plafonMaxim = { label: 'Plafon maxim aplicabil', value: plafonMaxim, formula: 'Plafon legal în funcție de tipul contestației', details: '' };
+  if (explicatie !== '-') results.explicatie = { label: 'Explicație', value: explicatie, formula: '', details: '' };
+  
+  // Verifică dacă sunt rezultate
+  if (Object.keys(results).length === 0) {
+    alert('Nu există rezultate de exportat. Vă rugăm să faceți un calcul mai întâi.');
+    return;
+  }
+  
+  // Exportă PDF-ul
+  exportToPDF(calculatorName, inputData, results);
+} 

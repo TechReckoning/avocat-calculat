@@ -270,6 +270,9 @@ window.addEventListener('DOMContentLoaded', async () => {
             dobandaAcumulata.textContent = '-';
             totalPlata.textContent = '-';
             detaliiMsg.textContent = 'Introduceți toate datele pentru a vedea calculul detaliat.';
+            
+            // Ascunde butonul de export dacă nu sunt rezultate
+            document.getElementById('exportBtn').style.display = 'none';
             return;
         }
         let dScadenta = parseDate(dataScadenta);
@@ -282,6 +285,9 @@ window.addEventListener('DOMContentLoaded', async () => {
             dobandaAcumulata.textContent = '-';
             totalPlata.textContent = '-';
             detaliiMsg.textContent = 'Datele introduse nu sunt valide!';
+            
+            // Ascunde butonul de export dacă nu sunt rezultate
+            document.getElementById('exportBtn').style.display = 'none';
             return;
         }
         if (dCalcul <= dScadenta) {
@@ -292,6 +298,9 @@ window.addEventListener('DOMContentLoaded', async () => {
             dobandaAcumulata.textContent = '-';
             totalPlata.textContent = '-';
             detaliiMsg.textContent = 'Data calculului trebuie să fie după data scadenței!';
+            
+            // Ascunde butonul de export dacă nu sunt rezultate
+            document.getElementById('exportBtn').style.display = 'none';
             return;
         }
         let { detalii, totalDobanda } = calcDobanda({ suma, dataScadenta, dataCalcul, tipRaport, bnrRates });
@@ -314,7 +323,85 @@ window.addEventListener('DOMContentLoaded', async () => {
         dobandaAcumulata.textContent = totalDobanda + ' RON';
         totalPlata.textContent = format2(suma + parseFloat(totalDobanda)) + ' RON';
         detaliiMsg.textContent = '';
+        
+        // Afișează butonul de export când sunt rezultate
+        document.getElementById('exportBtn').style.display = 'inline-block';
     }
+    
+    // Funcție pentru export PDF
+    window.exportResultsToPDF = function() {
+        const calculatorName = 'Calculator Dobânzi Legale Penalizatoare';
+        
+        // Colectează datele din formular
+        const inputData = {};
+        const suma = form.suma.value;
+        const dataScadenta = form.dataScadenta.value;
+        const dataCalcul = form.dataCalcul.value;
+        const tipRaport = form.querySelector('input[name="tipRaport"]:checked')?.value;
+        
+        if (suma) inputData.suma = { label: 'Suma datorată', value: suma, unit: ' RON' };
+        if (dataScadenta) inputData.dataScadenta = { label: 'Data scadenței', value: dataScadenta, unit: '' };
+        if (dataCalcul) inputData.dataCalcul = { label: 'Data calculului', value: dataCalcul, unit: '' };
+        if (tipRaport) {
+            let tipLabel = '';
+            switch(tipRaport) {
+                case 'uzual': tipLabel = 'Între neprofesioniști'; break;
+                case 'profesionisti': tipLabel = 'Între profesioniști'; break;
+                case 'profesionisti-art4': tipLabel = 'Între profesioniști (art. 4)'; break;
+                case 'extraneitate': tipLabel = 'Cu element de extraneitate'; break;
+                case 'faraScop': tipLabel = 'Fără scop lucrativ'; break;
+            }
+            inputData.tipRaport = { label: 'Tip raport juridic', value: tipLabel, unit: '' };
+        }
+        
+        // Colectează rezultatele
+        const results = {};
+        const sumaAfisata = document.getElementById('sumaAfisata').textContent;
+        const perioadaIntarziere = document.getElementById('perioadaIntarziere').textContent;
+        const dobandaAcumulata = document.getElementById('dobandaAcumulata').textContent;
+        const totalPlata = document.getElementById('totalPlata').textContent;
+        
+        if (sumaAfisata !== '-') results.suma = { label: 'Suma datorată', value: sumaAfisata, formula: '', details: '' };
+        if (perioadaIntarziere !== '-') results.perioada = { label: 'Perioada întârzierii', value: perioadaIntarziere, formula: '', details: '' };
+        if (dobandaAcumulata !== '-') results.dobanda = { label: 'Dobânda acumulată', value: dobandaAcumulata, formula: '', details: '' };
+        if (totalPlata !== '-') results.total = { label: 'Total de plată', value: totalPlata, formula: '', details: '' };
+        
+        // Colectează detaliile despre tranșe
+        const transeDetails = [];
+        const transeTableBody = document.getElementById('transeTableBody');
+        const rows = transeTableBody.querySelectorAll('tr');
+        
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length >= 6) {
+                const perioada = cells[0].textContent.trim();
+                const zile = cells[1].textContent.trim();
+                const zileAn = cells[2].textContent.trim();
+                const rataBNR = cells[3].textContent.trim();
+                const dobAplicata = cells[4].textContent.trim();
+                const dobandaRON = cells[5].textContent.trim();
+                
+                transeDetails.push({
+                    perioada: perioada,
+                    zile: zile,
+                    zileAn: zileAn,
+                    rataBNR: rataBNR,
+                    dobAplicata: dobAplicata,
+                    dobandaRON: dobandaRON
+                });
+            }
+        });
+        
+        // Verifică dacă sunt rezultate
+        if (Object.keys(results).length === 0) {
+            alert('Nu există rezultate de exportat. Vă rugăm să faceți un calcul mai întâi.');
+            return;
+        }
+        
+        // Exportă PDF-ul cu detaliile complete
+        exportToPDFWithTranse(calculatorName, inputData, results, transeDetails);
+    };
+    
     form.suma.addEventListener('input', calculeazaLive);
     form.dataScadenta.addEventListener('change', calculeazaLive);
     form.dataCalcul.addEventListener('change', calculeazaLive);

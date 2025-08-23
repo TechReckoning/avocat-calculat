@@ -41,9 +41,46 @@ form.addEventListener('submit', function(e) {
     valoareRezultat.textContent = 'Date invalide!';
     formulaRezultat.textContent = '';
     mesajRezultat.textContent = 'Vă rugăm să introduceți o valoare numerică pozitivă.';
+    // Ascunde butonul de export când nu sunt rezultate valide
+    document.getElementById('exportBtn').style.display = 'none';
     return;
   }
   valoareRezultat.textContent = `${cauțiune} lei`;
   formulaRezultat.textContent = formula;
   mesajRezultat.textContent = mesaj;
-}); 
+  
+  // Afișează butonul de export când sunt rezultate
+  document.getElementById('exportBtn').style.display = 'inline-block';
+});
+
+// Funcție pentru export PDF
+function exportResultsToPDF() {
+  const calculatorName = 'Calculator Cauțiune Executare Silită';
+  
+  // Colectează datele din formular
+  const inputData = {};
+  const valoareCont = document.getElementById('valoareCont').value;
+  
+  if (valoareCont) {
+    inputData.valoareCont = { label: 'Valoarea obiectului contestației', value: valoareCont + ' lei', unit: '' };
+  }
+  
+  // Colectează rezultatele
+  const results = {};
+  const valoareRezultat = document.getElementById('valoare_rezultat').textContent;
+  const formulaRezultat = document.getElementById('formula_rezultat').textContent;
+  const mesajRezultat = document.getElementById('mesaj_rezultat').textContent;
+  
+  if (valoareRezultat && valoareRezultat !== 'Date invalide!') {
+    results.cautiune = { label: 'Cauțiunea de execuție silită', value: valoareRezultat, formula: formulaRezultat, details: mesajRezultat };
+  }
+  
+  // Verifică dacă sunt rezultate
+  if (Object.keys(results).length === 0) {
+    alert('Nu există rezultate de exportat. Vă rugăm să faceți un calcul mai întâi.');
+    return;
+  }
+  
+  // Exportă PDF-ul
+  exportToPDF(calculatorName, inputData, results);
+} 

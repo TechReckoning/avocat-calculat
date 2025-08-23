@@ -19,6 +19,24 @@ header {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.header-logo {
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+}
+
+.header-text {
+  text-align: center;
+}
+
 header h1 {
   margin: 0;
   font-size: 2.5em;
@@ -59,8 +77,20 @@ header p {
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.export-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 14px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .export-badge {
+  opacity: 1;
 }
 
 footer {
