@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculator Actualizare cu Indicele Inflației - Avocat Calculat</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../pages/pages.css" />
+  <link rel="stylesheet" href="../css/actualizare-inflatie.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <script data-goatcounter="https://avocatcalculat.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <a href="../index.html" class="back-btn">← Înapoi la Dashboard</a>
+    </nav>
+    <h1>Calculator Orientativ de Actualizare cu Indicele Inflației</h1>
+    <p style="max-width:700px;margin:0 auto;text-align:center;font-weight:500;">
+      Actualizează sume monetare folosind înlănțuirea indicilor anuali IPC (Indicele Prețurilor de Consum) 
+      pentru perioada 1971-2024. Calculatorul suportă atât actualizarea înainte cât și retro-indexarea.
+    </p>
+  </header>
+
+  <main class="calculator-container">
+    <div class="calculator-form">
+      <div class="form-group">
+        <label for="amount">Suma de actualizat (Lei):</label>
+        <small style="text-align:left;display:block;">
+          Folosiți punctul (.) sau virgula (,) pentru zecimale. Ex: 10.000,00 sau 10000.00
+        </small>
+        <input id="amount" name="amount" type="text" placeholder="Ex: 10.000,00"/>
+      </div>
+
+      <div class="form-group">
+        <label for="originYear">An de origine:</label>
+        <select id="originYear" name="originYear">
+          <option value="">Selectează anul</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="targetYear">An de actualizare:</label>
+        <select id="targetYear" name="targetYear">
+          <option value="">Selectează anul</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Metodă de înlănțuire:</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="method" id="excludeOrigin" checked>
+            <span class="radio-text">
+              <strong>Standard</strong> (exclude anul de origine, include anul țintă)
+            </span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="method" id="includeOrigin">
+            <span class="radio-text">
+              Include și anul de origine
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="rounding">Rotunjire:</label>
+        <select id="rounding" name="rounding">
+          <option value="rounded">La 2 zecimale (monedă)</option>
+          <option value="exact">Fără rotunjire</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button type="button" id="calculateBtn" class="calculate-btn">Calculează</button>
+        <button type="button" id="resetBtn" class="calculate-btn">Reset</button>
+        <button type="button" onclick="exportResultsToPDF()" class="export-btn" id="exportBtn" style="display:none;">Export PDF</button>
+      </div>
+    </div>
+
+    <div class="results" id="results" style="display: none;">
+      <h3>Rezultate</h3>
+      <table class="results-table">
+        <tr>
+          <td><label>Factor cumulativ de actualizare:</label></td>
+          <td><div id="factorResult" class="result">–</div></td>
+        </tr>
+        <tr>
+          <td><label>Suma actualizată:</label></td>
+          <td><div id="amountResult" class="result">–</div></td>
+        </tr>
+        <tr>
+          <td><label>Perioada înlănțuită:</label></td>
+          <td><div id="yearsResult" class="result">–</div></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="errors" id="errors" style="display: none;"></div>
+
+    <div class="how-calculate">
+      <h3>Cum calculăm</h3>
+      <p>
+        <strong>Indicele anual IPC</strong> măsoară evoluția prețurilor față de anul precedent (an precedent = 100). 
+        Actualizarea se face prin înlănțuirea indicilor pentru fiecare an din interval.
+      </p>
+      <div class="formula">
+        <strong>Formula standard:</strong><br>
+        <code>Suma actualizată = Suma inițială × ∏ (IPC_an / 100)</code><br>
+        pentru fiecare an din lanț
+      </div>
+      <p>
+        <strong>Exemplu:</strong> Pentru actualizarea din 2020 în 2024 (exclude origine):<br>
+        Factor = (105.05/100) × (113.80/100) × (110.40/100) × (105.59/100) = 1.3897
+      </p>
+    </div>
+
+
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> 
+      Acest calculator are scop <strong>strict informativ</strong>. Rezultatele pot varia în funcție de metodologia aplicată și de rotunjiri. 
+      Pentru spețe concrete, verificați textele legale aplicabile și practica instanțelor. 
+      Datele IPC sunt preluate din surse oficiale, dar pot exista diferențe față de alte surse.
+    </div>
+
+    <div class="data-update">
+      <p><em>Ultima actualizare a datelor: 2024</em></p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 TechReckoning | Toate drepturile rezervate. Informațiile prezentate nu constituie consultanță juridică și nu creează o relație avocat-client.</p>
+  </footer>
+
+  <script src="../js/feedback-form.js"></script>
+  <script src="../js/pdf-export.js"></script>
+  <script src="../js/actualizare-inflatie.js"></script>
+</body>
+</html>
