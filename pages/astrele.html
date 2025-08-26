@@ -39,44 +39,7 @@
   <footer class="footer">
     &copy; 2024 Tech Reckoning. Toate drepturile rezervate.
   </footer>
-  <script>
-    async function loadHoroscop() {
-      const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEiwCMKmV2RO82WrU1o36_3lHj2fi_uR23NyNkqxk9JeT40jBTDeEBeGx36AddiO7IjCio_TvbBrF5/pub?gid=0&single=true&output=csv";
-      const res = await fetch(url);
-      const text = await res.text();
-      const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
-      const data = parsed.data;
-      console.log("DATA:", data);
-      // Găsește săptămâna curentă (ultima din listă)
-      const saptamani = [...new Set(data.map(row => row['saptamana']).filter(Boolean))];
-      const saptamanaCurenta = saptamani[saptamani.length-1];
-      console.log("Săptămâni:", saptamani, "Săptămâna curentă:", saptamanaCurenta);
-      document.getElementById('horoscop-week').textContent = 'Săptămâna: ' + saptamanaCurenta;
-      const zodii = data.filter(row => row['saptamana'] === saptamanaCurenta);
-      console.log("Zodii pentru săptămâna curentă:", zodii);
-      const list = document.getElementById('horoscop-list');
-      list.innerHTML = '';
-      if(zodii.length === 0) {
-        list.innerHTML = '<div style="color:#b00;text-align:center;">Nu există date pentru această săptămână.</div>';
-      } else {
-        zodii.forEach(row => {
-          console.log("Zodie:", row);
-          const div = document.createElement('div');
-          div.className = 'zodie';
-          div.innerHTML = `
-            <div class="zodie-header">
-              <span class="nume-zodie"><strong>${row['zodie']}</strong></span>
-            </div>
-            <div class="zodie-text">
-              <p>${row['horoscop'] || row['text_horoscop'] || ''}</p>
-            </div>
-          `;
-          list.appendChild(div);
-        });
-      }
-    }
-    loadHoroscop();
-  </script>
+  <script src="../js/astrele.js"></script>
 <script data-goatcounter="https://numele-tau.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html> 

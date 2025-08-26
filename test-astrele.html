@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test Astrele</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ccc; }
+    .success { color: green; }
+    .error { color: red; }
+    .info { color: blue; }
+  </style>
+</head>
+<body>
+  <h1>Test Funcționalitate Astrele</h1>
+  
+  <div class="test-section">
+    <h2>Test Acces Google Sheets</h2>
+    <button onclick="testGoogleSheets()">Testează Google Sheets</button>
+    <div id="google-sheets-result"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Test Parsare CSV</h2>
+    <button onclick="testCSVParsing()">Testează Parsarea CSV</button>
+    <div id="csv-result"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Test Afișare Date</h2>
+    <div id="horoscop-week"></div>
+    <div id="horoscop-list"></div>
+  </div>
+
+  <script src="js/astrele.js"></script>
+  <script>
+    async function testGoogleSheets() {
+      const resultDiv = document.getElementById('google-sheets-result');
+      resultDiv.innerHTML = '<span class="info">Testez...</span>';
+      
+      try {
+        const accessible = await testGoogleSheetsAccess();
+        if (accessible) {
+          resultDiv.innerHTML = '<span class="success">✓ Google Sheets este accesibil</span>';
+        } else {
+          resultDiv.innerHTML = '<span class="error">✗ Google Sheets nu este accesibil</span>';
+        }
+      } catch (error) {
+        resultDiv.innerHTML = '<span class="error">✗ Eroare: ' + error.message + '</span>';
+      }
+    }
+    
+    async function testCSVParsing() {
+      const resultDiv = document.getElementById('csv-result');
+      resultDiv.innerHTML = '<span class="info">Testez parsarea...</span>';
+      
+      try {
+        await loadHoroscop();
+        resultDiv.innerHTML = '<span class="success">✓ Parsarea CSV a funcționat</span>';
+      } catch (error) {
+        resultDiv.innerHTML = '<span class="error">✗ Eroare la parsare: ' + error.message + '</span>';
+      }
+    }
+  </script>
+</body>
+</html>
