@@ -6,12 +6,12 @@ function calculeazaBuget() {
   }
 
   let caa = 0;
-  if (brut <= 871) {
-    caa = 122;
-  } else if (brut <= 19993) {
+  if (brut <= 951) {
+    caa = 134;
+  } else if (brut <= 21943) {
     caa = brut * 0.14;
   } else {
-    caa = 2800;
+    caa = 3073;
   }
 
   const impozit = brut * 0.10;
